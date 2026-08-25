@@ -1,0 +1,391 @@
+:root {
+  --game-ink: #162033;
+  --game-muted: #64748b;
+  --game-line: rgba(82, 103, 137, 0.16);
+  --game-panel: rgba(255, 255, 255, 0.88);
+  --game-panel-strong: rgba(255, 255, 255, 0.96);
+  --game-blue: #4f7cff;
+  --game-violet: #7557e8;
+  --game-shadow: 0 30px 80px rgba(26, 40, 68, 0.18), 0 8px 24px rgba(26, 40, 68, 0.1);
+  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+html,
+body,
+#root {
+  min-width: 320px;
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  color: var(--game-ink);
+  background:
+    radial-gradient(circle at 14% 12%, rgba(90, 133, 255, 0.18), transparent 32%),
+    radial-gradient(circle at 86% 82%, rgba(139, 92, 246, 0.14), transparent 34%),
+    linear-gradient(145deg, #f8fafc 0%, #edf3fb 48%, #f7f2fb 100%);
+}
+
+body::before,
+body::after {
+  position: fixed;
+  z-index: -1;
+  width: 30vw;
+  height: 30vw;
+  min-width: 260px;
+  min-height: 260px;
+  content: "";
+  border-radius: 999px;
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+body::before {
+  top: -12vw;
+  left: -8vw;
+  background: rgba(73, 122, 255, 0.18);
+}
+
+body::after {
+  right: -10vw;
+  bottom: -14vw;
+  background: rgba(124, 80, 220, 0.14);
+}
+
+#root > .min-h-screen {
+  min-height: 100svh !important;
+  padding: clamp(12px, 2.5vw, 28px) !important;
+  overflow: hidden;
+  background: transparent !important;
+}
+
+/* Main game surfaces share one visual language without touching content. */
+#root > .min-h-screen > .w-full.max-w-md,
+#root > .min-h-screen > .w-full.max-w-2xl,
+#root > .min-h-screen > .relative.w-full.h-full.flex.flex-col {
+  position: relative;
+  height: min(800px, calc(100svh - 48px)) !important;
+  max-height: 800px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 30px !important;
+  background: var(--game-panel) !important;
+  box-shadow: var(--game-shadow) !important;
+  outline: 7px solid rgba(22, 32, 51, 0.86);
+  backdrop-filter: blur(24px) saturate(1.15);
+  animation: game-surface-enter 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(100, 116, 139, 0.28) transparent;
+}
+
+#root > .min-h-screen > .w-full.max-w-2xl {
+  max-width: 720px;
+}
+
+#root > .min-h-screen > .relative.w-full.h-full.flex.items-center.justify-center > .max-w-lg {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.86);
+  border-radius: 28px !important;
+  background: var(--game-panel-strong) !important;
+  box-shadow: var(--game-shadow) !important;
+  backdrop-filter: blur(24px) saturate(1.12);
+  animation: game-surface-enter 500ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+/* The opening artwork keeps its composition even while the remote image loads. */
+#root .max-w-lg .mb-8 > .relative.inline-block {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(255, 214, 121, 0.35), transparent 24%),
+    linear-gradient(135deg, #17243c 0%, #273c64 50%, #5b3f75 100%);
+  box-shadow: inset 0 0 50px rgba(5, 10, 25, 0.25), 0 14px 30px rgba(30, 43, 70, 0.18);
+}
+
+#root .max-w-lg .mb-8 > .relative.inline-block::before {
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  content: "✦";
+  color: rgba(255, 255, 255, 0.55);
+  font-size: clamp(44px, 8vw, 72px);
+  line-height: 1;
+  transform: translate(-50%, -50%);
+  text-shadow: 0 0 35px rgba(255, 213, 123, 0.45);
+}
+
+#root .max-w-lg .mb-8 img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100% !important;
+  object-fit: cover;
+}
+
+#root h1,
+#root h2,
+#root h3,
+#root h4 {
+  letter-spacing: -0.02em;
+}
+
+#root h1 {
+  color: #172238 !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+#root p {
+  line-height: 1.7;
+}
+
+#root button,
+#root [class*="cursor-pointer"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+#root button {
+  transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease, border-color 160ms ease, opacity 160ms ease;
+}
+
+#root button:hover {
+  transform: translateY(-1px);
+}
+
+#root button:active {
+  transform: translateY(1px) scale(0.985);
+}
+
+#root button:focus-visible,
+#root input:focus-visible {
+  outline: 3px solid rgba(79, 124, 255, 0.28) !important;
+  outline-offset: 2px;
+}
+
+#root .max-w-lg > button,
+#root button.bg-blue-500,
+#root button.bg-blue-600 {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-image: linear-gradient(135deg, var(--game-blue), var(--game-violet)) !important;
+  box-shadow: 0 12px 24px rgba(79, 124, 255, 0.28);
+}
+
+/* Search fields and sticky toolbars feel like one system across apps. */
+#root form > .relative.flex.items-center.rounded-full {
+  border: 1px solid var(--game-line);
+  background: rgba(255, 255, 255, 0.82) !important;
+  box-shadow: 0 8px 18px rgba(28, 42, 70, 0.08);
+  backdrop-filter: blur(18px) saturate(1.2);
+}
+
+#root form > .relative.flex.items-center.rounded-full input {
+  background: transparent !important;
+}
+
+#root .sticky.top-0.z-10 {
+  padding-top: 2px;
+}
+
+/* Home screen icons, dock and bottom navigation. */
+#root .grid.grid-cols-4 > .flex.flex-col.items-center > .w-16.h-16 {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  box-shadow: 0 10px 22px rgba(22, 32, 51, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+#root .grid.grid-cols-4 > .flex.flex-col.items-center > .w-16.h-16::after,
+#root .flex.justify-around.items-center .w-16.h-16::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(155deg, rgba(255, 255, 255, 0.28), transparent 48%);
+  pointer-events: none;
+}
+
+#root .grid.grid-cols-4 > .flex.flex-col.items-center:hover {
+  transform: translateY(-3px) !important;
+}
+
+#root .rounded-t-2xl.backdrop-blur-md {
+  margin: 0 4px 2px;
+  border: 1px solid rgba(255, 255, 255, 0.62) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 14px 34px rgba(20, 32, 55, 0.16);
+}
+
+#root .flex.justify-around.mt-6.pt-4.border-t {
+  position: sticky;
+  z-index: 8;
+  bottom: -1px;
+  margin-right: -8px;
+  margin-left: -8px;
+  padding: 14px 10px 6px;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.96) 65%, rgba(255, 255, 255, 0));
+  backdrop-filter: blur(12px);
+}
+
+/* Content cards and gallery tiles. */
+#root .grid.grid-cols-3.gap-2 {
+  gap: 10px;
+}
+
+#root .grid.grid-cols-3.gap-2 > .aspect-square,
+#root .grid.gap-2.mb-3 > div {
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  border-radius: 14px !important;
+  box-shadow: 0 8px 18px rgba(20, 32, 55, 0.12);
+}
+
+#root .space-y-4 > .rounded-lg,
+#root .space-y-3 > .rounded-lg,
+#root .p-4.rounded-lg.cursor-pointer {
+  border: 1px solid var(--game-line);
+  box-shadow: 0 8px 18px rgba(20, 32, 55, 0.06);
+}
+
+#root img {
+  user-select: none;
+}
+
+#root .absolute.bottom-1.right-1 {
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  opacity: 0.7;
+  backdrop-filter: blur(8px);
+}
+
+#root *::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+#root *::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#root *::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(100, 116, 139, 0.24);
+}
+
+html.dark body {
+  color: #edf3ff;
+  background:
+    radial-gradient(circle at 14% 12%, rgba(71, 105, 190, 0.2), transparent 32%),
+    radial-gradient(circle at 86% 82%, rgba(111, 74, 178, 0.18), transparent 34%),
+    linear-gradient(145deg, #0c1220 0%, #111a2c 52%, #171126 100%);
+}
+
+html.dark #root > .min-h-screen > .w-full.max-w-md,
+html.dark #root > .min-h-screen > .w-full.max-w-2xl,
+html.dark #root > .min-h-screen > .relative.w-full.h-full.flex.flex-col,
+html.dark #root > .min-h-screen > .relative.w-full.h-full.flex.items-center.justify-center > .max-w-lg {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(20, 27, 43, 0.91) !important;
+  outline-color: rgba(5, 10, 20, 0.9);
+}
+
+html.dark #root h1 {
+  color: #f5f7ff !important;
+  text-shadow: none;
+}
+
+html.dark #root form > .relative.flex.items-center.rounded-full {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(28, 37, 57, 0.86) !important;
+}
+
+html.dark #root .flex.justify-around.mt-6.pt-4.border-t {
+  background: linear-gradient(to top, rgba(20, 27, 43, 0.97) 65%, rgba(20, 27, 43, 0));
+}
+
+@keyframes game-surface-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 639px) {
+  #root > .min-h-screen {
+    padding: 0 !important;
+  }
+
+  #root > .min-h-screen > .w-full.max-w-md,
+  #root > .min-h-screen > .w-full.max-w-2xl,
+  #root > .min-h-screen > .relative.w-full.h-full.flex.flex-col {
+    width: 100%;
+    max-width: none;
+    height: 100svh !important;
+    max-height: none;
+    padding: 18px !important;
+    border: 0;
+    border-radius: 0 !important;
+    outline: 0;
+  }
+
+  #root > .min-h-screen > .relative.w-full.h-full.flex.items-center.justify-center {
+    min-height: 100svh;
+    padding: 16px;
+  }
+
+  #root > .min-h-screen > .relative.w-full.h-full.flex.items-center.justify-center > .max-w-lg {
+    padding: 24px !important;
+    border-radius: 24px !important;
+  }
+
+  #root .max-w-lg .mb-8 {
+    margin-bottom: 22px;
+  }
+
+  #root .max-w-lg h1 {
+    margin-bottom: 20px;
+    font-size: 1.75rem;
+  }
+
+  #root .max-w-lg p {
+    margin-bottom: 22px;
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  #root .sticky.top-0.z-10.mb-8 {
+    margin-bottom: 20px;
+  }
+
+  #root .grid.grid-cols-4 {
+    gap: 20px 14px;
+  }
+
+  #root .grid.grid-cols-4 > .flex.flex-col.items-center > .w-16.h-16,
+  #root .flex.justify-around.items-center .w-16.h-16 {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #root *,
+  #root *::before,
+  #root *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
